@@ -444,6 +444,7 @@ impl SessionCommon {
 
     pub fn is_tls13(&self) -> bool {
       match self.negotiated_version {
+        #[cfg(feature = "tls13")]
         Some(ProtocolVersion::TLSv1_3) => true,
         _ => false
       }
@@ -562,6 +563,7 @@ impl SessionCommon {
         }
     }
 
+    #[cfg(feature = "tls13")]
     fn do_write_key_update(&mut self) {
         // TLS1.3 putting key update triggering here breaks layering
         // between the handshake and record layer.
@@ -589,6 +591,7 @@ impl SessionCommon {
     /// the encrypted fragments for sending.
     pub fn send_msg_encrypt(&mut self, m: Message) {
         if self.want_write_key_update {
+            #[cfg(feature = "tls13")]
             self.do_write_key_update();
         }
 
@@ -605,6 +608,7 @@ impl SessionCommon {
                             payload: &[u8],
                             limit: Limit) -> usize {
         if self.want_write_key_update {
+            #[cfg(feature = "tls13")]
             self.do_write_key_update();
         }
 
@@ -795,6 +799,7 @@ impl SessionCommon {
         self.send_warning_alert_no_log(AlertDescription::CloseNotify);
     }
 
+    #[cfg(feature = "tls13")]
     pub fn process_key_update(&mut self,
                               kur: &KeyUpdateRequest,
                               read_kind: SecretKind)

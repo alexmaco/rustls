@@ -1,6 +1,6 @@
 use msgs::codec::{Codec, Reader};
 
-#[derive(Debug)]
+#[cfg_attr(feature = "logging", derive(Debug))]
 pub struct ChangeCipherSpecPayload;
 
 impl Codec for ChangeCipherSpecPayload {
