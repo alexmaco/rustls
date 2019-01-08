@@ -218,18 +218,20 @@ extern crate sct;
 // rust-base64 for pemfile module.
 extern crate base64;
 
-#[cfg(feature = "sgx")]
+#[cfg(all(target_arch = "x86_64", feature = "sgx"))]
+// JSON deserializer for Rust
 extern crate serde_json;
 
-#[cfg(feature = "sgx")]
+#[cfg(all(target_arch = "x86_64", feature = "sgx"))]
+// Date and time library for Rust
 extern crate chrono;
 
-#[cfg(feature = "sgx")]
+#[cfg(all(target_arch = "x86_64", feature = "sgx"))]
 // sgx_types for parsing SGX attestation reports
 extern crate sgx_types;
 
 // memoffset for calculating the offset inside sgx types
-#[cfg(feature = "sgx")]
+#[cfg(all(target_arch = "x86_64", feature = "sgx"))]
 #[macro_use]
 extern crate memoffset;
 
