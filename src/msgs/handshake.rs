@@ -215,24 +215,17 @@ pub trait SupportedGroups {
 }
 
 impl SupportedGroups for NamedGroups {
-    #[cfg(all(feature = "x25519", feature = "ecdh"))]
     fn supported() -> NamedGroups {
-        vec![ NamedGroup::X25519, NamedGroup::secp384r1, NamedGroup::secp256r1 ]
-    }
+        vec![
+            #[cfg(feature = "x25519")]
+            NamedGroup::X25519,
 
-    #[cfg(all(not(feature = "x25519"), feature = "ecdh"))]
-    fn supported() -> NamedGroups {
-        vec![ NamedGroup::secp384r1, NamedGroup::secp256r1 ]
-    }
+            #[cfg(feature = "ecdh")]
+            NamedGroup::secp384r1,
 
-    #[cfg(all(feature = "x25519", not(feature = "ecdh")))]
-    fn supported() -> NamedGroups {
-        vec![ NamedGroup::X25519 ]
-    }
-
-    #[cfg(all(not(feature = "x25519"), not(feature = "ecdh")))]
-    fn supported() -> NamedGroups {
-        vec![]
+            #[cfg(feature = "ecdh")]
+            NamedGroup::secp256r1,
+        ]
     }
 }
 
